@@ -1,5 +1,5 @@
 {
-    "name": "arwars/laravel-zoho-oauth",
+    "name": "arwars/zoho-oauth",
     "description": "Generate Zoho API access and refresh token in Laravel 8.0 and up, original code by njoguamos",
     "type": "library",
     "require": {
