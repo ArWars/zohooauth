@@ -1,0 +1,51 @@
+{
+    "name": "arwars/laravel-zoho-oauth",
+    "description": "Generate Zoho API access and refresh token in Laravel 8.0 and up, original code by njoguamos",
+    "type": "library",
+    "require": {
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7.3",
+        "illuminate/database": "^8.37|^9.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Arwars\\LaravelZohoOauth\\": "src/",
+            "Arwars\\LaravelZohoOauth\\Database\\Factories\\": "database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Arwars\\LaravelZohoOauth\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Arwars\\LaravelZohoOauth\\ZohoOauthServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Njogu Amos",
+            "email": "njoguamos@gmail.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Ariel Esteban",
+            "email": "ariieelesteban@gmail.com"
+        }
+    ]
+}
