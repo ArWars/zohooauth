@@ -34,7 +34,6 @@ class ZohoOauthPruneCommand extends Command
 
         if ($tokenCount === 0) {
             $this->warn(trans('zoauth::zoauth.db_empty'));
-
             return 0;
         }
 

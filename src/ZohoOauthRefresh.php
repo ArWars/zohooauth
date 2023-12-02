@@ -8,7 +8,7 @@ class ZohoOauthRefresh extends ZohoCredentials implements ZohoCredentialsInterfa
 {
     public function generateNewRefreshToken()
     {
-        if (ZohoOauth::count() === 0) {
+        if (ZohoOauth::where('config_id', $this->config->id)->count() === 0) {
             return trans('zoauth::zoauth.no_refresh_token');
         }
 
@@ -26,6 +26,7 @@ class ZohoOauthRefresh extends ZohoCredentials implements ZohoCredentialsInterfa
     public function prepareData(array $responseData): array
     {
         return [
+            'config_id'    => $this->config->id,
             'access_token'  => $responseData['access_token'],
             'refresh_token' => $this->getRefreshToken(),
             'api_domain'    => $responseData['api_domain'],

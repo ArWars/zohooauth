@@ -22,13 +22,9 @@ class ZohoOauthServiceProvider extends ServiceProvider
     protected function registerPublishables(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/zoho-oauth.php' => config_path('zoho-oauth.php'),
-            ], 'config');
-
             if (! class_exists('CreateZohoOauthTable')) {
                 $this->publishes([
-                    __DIR__.'/../database/migrations/create_zoho_oauth_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_zoho_oauth_table.php'),
+                    __DIR__.'/../database/migrations/create_zoho_oauth_tables.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_zoho_oauth_tables.php'),
                 ], 'migrations');
             }
         }
@@ -39,25 +35,9 @@ class ZohoOauthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/zoho-oauth.php', 'zoho-oauth'
-        );
-
         $this->loadTranslationsFrom(
             __DIR__.'/../resources/lang/', 'zoauth'
         );
-
-        $this->app->bind(ZohoOauthInit::class, function ($app) {
-            $config = $app['config']->get('zoho-oauth');
-
-            return new ZohoOauthInit($config['base_oauth_url'], $config['client_id'], $config['client_secret'], $config['code']);
-        });
-
-        $this->app->bind(ZohoOauthRefresh::class, function ($app) {
-            $config = $app['config']->get('zoho-oauth');
-
-            return new ZohoOauthRefresh($config['base_oauth_url'], $config['client_id'], $config['client_secret'], $config['code']);
-        });
 
         $this->registerCommands();
     }

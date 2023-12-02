@@ -13,14 +13,27 @@ class CreateZohoOauthTable extends Migration
      */
     public function up()
     {
+        Schema::create('zoho_oauth_config', function (Blueprint $table) {
+            $table->id();
+            $table->string('base_oauth_url');
+            $table->string('client_id');
+            $table->string('client_secret');
+            $table->string('code');
+            $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade')->unique();
+            $table->timestamps();
+        });
+
         Schema::create('zoho_oauth', function (Blueprint $table) {
             $table->id();
             $table->string('refresh_token')->index();
-            $table->string('access_token')->unique();
+            $table->string('access_token');
             $table->timestamp('expires_at');
             $table->string('token_type')->nullable();
             $table->string('api_domain')->nullable();
+            $table->foreignIdFor(\App\Models\ZohoOauthConfig::class, 'config_id');
+            $table->foreign('config_id')->references('id')->on('zoho_oauth_config')->onDelete('cascade');
             $table->timestamps();
+            $table->unique(['config_id','access_token']);
         });
     }
 
@@ -31,6 +44,7 @@ class CreateZohoOauthTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('zoho_oauth_config');
         Schema::dropIfExists('zoho_oauth');
     }
 }

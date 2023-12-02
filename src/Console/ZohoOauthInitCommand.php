@@ -2,6 +2,7 @@
 
 namespace Arwars\LaravelZohoOauth\Console;
 
+use Arwars\LaravelZohoOauth\Models\ZohoOauthConfig;
 use Illuminate\Console\Command;
 use Arwars\LaravelZohoOauth\ZohoOauthInit;
 
@@ -29,7 +30,6 @@ class ZohoOauthInitCommand extends Command
     public function handle()
     {
         $this->info(app(ZohoOauthInit::class)->initializeTokens());
-
         return 0;
     }
 }

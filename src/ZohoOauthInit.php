@@ -2,6 +2,8 @@
 
 namespace Arwars\LaravelZohoOauth;
 
+use Arwars\LaravelZohoOauth\Models\ZohoOauthConfig;
+
 class ZohoOauthInit extends ZohoCredentials implements ZohoCredentialsInterface
 {
     public function initializeTokens()
@@ -20,6 +22,7 @@ class ZohoOauthInit extends ZohoCredentials implements ZohoCredentialsInterface
     public function prepareData($responseData): array
     {
         return [
+            'config_id'    => $this->config->id,
             'access_token'  => $responseData['access_token'],
             'refresh_token' => $responseData['refresh_token'],
             'api_domain'    => $responseData['api_domain'],

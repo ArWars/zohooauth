@@ -2,6 +2,7 @@
 
 namespace Arwars\LaravelZohoOauth;
 
+use Arwars\LaravelZohoOauth\Models\ZohoOauthConfig;
 use http\Exception\RuntimeException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -19,12 +20,15 @@ abstract class ZohoCredentials
 
     protected string $code;
 
-    public function __construct(string $baseUrl, string $clientId, string $clientSecret, string $code)
+    protected ZohoOauthConfig $config;
+
+    public function __construct(ZohoOauthConfig $config)
     {
-        $this->baseUrl = $baseUrl;
-        $this->clientId = $clientId;
-        $this->clientSecret = $clientSecret;
-        $this->code = $code;
+        $this->config = $config;
+        $this->baseUrl = $config->base_oauth_url;
+        $this->clientId = $config->client_id;
+        $this->clientSecret = $config->client_secret;
+        $this->code = $config->code;
     }
 
     public function getInitCredentials(): array
@@ -79,13 +83,12 @@ abstract class ZohoCredentials
 
     protected function getLatestTokenRecord()
     {
-        return ZohoOauth::latest()->first();
+        return ZohoOauth::where('config_id', $this->config->id)->latest()->first();
     }
 
     protected function getErrorDescription(string $error)
     {
         $errorMessages = $this->getErrorMessages();
-
         return Arr::exists($errorMessages, $error) ? Arr::get($errorMessages, $error) : $errorMessages['default'];
     }
 

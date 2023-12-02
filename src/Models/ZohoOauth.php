@@ -2,6 +2,7 @@
 
 namespace Arwars\LaravelZohoOauth\Models;
 
+use App\Models\ZohoOauthConfig;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +19,7 @@ class ZohoOauth extends Model
     protected $guarded = [];
 
     protected $appends = [
-        'auth_token', 'is_expired',
+        'auth_token', 'is_expired', 'config_id',
     ];
 
     protected function getAuthTokenAttribute()
@@ -30,4 +31,9 @@ class ZohoOauth extends Model
     {
         return $this->expires_at->isPast();
     }
+
+    public function config() {
+        return $this->belongsTo(ZohoOauthConfig::class, 'config_id', 'id');
+    }
+
 }
