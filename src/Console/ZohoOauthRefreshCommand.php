@@ -33,18 +33,8 @@ class ZohoOauthRefreshCommand extends Command
         $configs = ZohoOauthConfig::all();
         foreach($configs as $config) {
             $zohoOAuth = new ZohoOauthRefresh($config);
-            $zohoOAuth->generateNewRefreshToken();
+            $this->info($zohoOAuth->generateNewRefreshToken());
         }
-
-        $this->app->bind(ZohoOauthInit::class, function (ZohoOauthConfig $config) {
-            return new ZohoOauthInit($config);
-        });
-
-        $this->app->bind(ZohoOauthRefresh::class, function (ZohoOauthConfig $config) {
-            return new ZohoOauthRefresh($config);
-        });
-
-        $this->info(app(ZohoOauthRefresh::class)->generateNewRefreshToken());
 
         return 0;
     }
